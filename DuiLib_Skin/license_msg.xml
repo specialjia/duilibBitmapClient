@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window size="290,180" caption="0,0,0,30" bktrans="true">
+	<Font name="微软雅黑" id="0" size="12" bold="true" default="true" />
+	<VerticalLayout bkcolor="0xFFFFFFFF">
+		<HorizontalLayout height="30">
+			<Label width="87" height="17" padding="8,6" bkimage="images\license_msg_icon.png" />
+			<Button name="btn_close" width="20" height="20" padding="166,5" bkimage="images\ic_in_clase.png" />
+		</HorizontalLayout>
+		<Control height="1" bkcolor="0xFFEAEAEA" />
+		<Label padding="0,39" text="请勾选同意协议" textcolor="0xFF313233" align="center" />
+		<Label padding="0,4" text="很抱歉，不同意使用协议将无法继续安装。" textcolor="0xFF939599" align="center" />
+		<HorizontalLayout padding="0,30" height="22">
+			<Button name="btn_keep_selected" width="62" padding="148" text="保持勾选" textcolor="0xFFFFFFFF" bkcolor="0xFF1467FF" hotbkcolor="0xFF4888ff" pushedbkcolor="0xFF004ae7" />
+			<Button name="btn_quit" width="62" padding="8,0" text="退出安装" textcolor="0xFF939599" bordersize="1" bordercolor="0xFF939599" />
+		</HorizontalLayout>
+		<Control height="12" />
+	</VerticalLayout>
+</Window>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window size="736,472" caption="0,130,0,150" bktrans="true" mininfo="736,472" maxinfo="736,472" >
+	<Font name="微软雅黑" id="0" size="12" default="true" />
+	<HorizontalLayout size="736,472" bkimage="images\bg_installed_shadow_rest.png" inset="38,30,38">
+		<HorizontalLayout>
+			
+		</HorizontalLayout>
+	</HorizontalLayout>
+</Window>
