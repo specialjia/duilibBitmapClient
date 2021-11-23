@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Window size="736,472" caption="0,130,0,150" bktrans="true" mininfo="736,472" maxinfo="736,472" >
+<Window size="736,472" caption="0,30,0,70" bktrans="true" mininfo="736,472" maxinfo="736,472">
 	<Font name="微软雅黑" id="0" size="12" default="true" />
-	<HorizontalLayout size="736,472" bkimage="images\bg_installed_shadow_rest.png" inset="38,30,38">
-		<HorizontalLayout>
-			
+	<HorizontalLayout width="660" height="396" bkimage="images\bg_installed_shadow_rest.png" inset="38,30,38">
+		<HorizontalLayout width="660" height="396">
+			<HorizontalLayout>
+				<VerticalLayout width="100" />
+				<VerticalLayout>
+					<Picture name="pic_image" />
+				</VerticalLayout>
+			</HorizontalLayout>
 		</HorizontalLayout>
 	</HorizontalLayout>
 </Window>
