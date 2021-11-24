@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Window size="736,472" caption="0,30,0,70" bktrans="true" mininfo="736,472" maxinfo="736,472">
+<Window size="961,623" caption="0,0,0,70" mininfo="961,623" maxinfo="736,472" showshadow="true" shadowsize="3">
 	<Font name="微软雅黑" id="0" size="12" default="true" />
-	<HorizontalLayout width="660" height="396" bkimage="images\bg_installed_shadow_rest.png" inset="38,30,38">
-		<HorizontalLayout width="660" height="396">
-			<HorizontalLayout>
-				<VerticalLayout width="100" />
-				<VerticalLayout>
-					<Picture name="pic_image" />
-				</VerticalLayout>
+	<HorizontalLayout bkcolor="0xffFFFFFF">
+		<VerticalLayout width="148">
+			<List width="148" name="list_file" bordercolor="0xff001200" bordersize="1" vscrollbar="true" />
+		</VerticalLayout>
+		<VerticalLayout width="521" bkcolor="0xffF7F7F7">
+			<Picture name="pic_image" enabled="false" bkcolor="0xffFFFFFF" padding="80,52,80,20" />
+			<HorizontalLayout padding="68,0,68" height="60" childalign="center" childvalign="vcenter">
+				<Button name="btn_pre" hotbkcolor="0xffDBE0EB" bordercolor="0xffE7E7E7" bordersize="2" width="46" height="31" text="上一页" borderround="2,2" />
+				<Text name="lb_page" bordercolor="0xffE7E7E7" bordersize="2" width="108" height="31" text="1/1" textalign="center" padding="10,0,10" align="center" />
+				<Button name="btn_next" hotbkcolor="0xffDBE0EB" bordercolor="0xffE7E7E7" bordersize="2" width="46" height="31" text="下一页" />
 			</HorizontalLayout>
-		</HorizontalLayout>
+		</VerticalLayout>
+		<VerticalLayout />
 	</HorizontalLayout>
 </Window>
