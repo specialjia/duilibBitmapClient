@@ -13,6 +13,29 @@
 				<Button name="btn_next" hotbkcolor="0xffDBE0EB" bordercolor="0xffE7E7E7" bordersize="2" width="46" height="31" text="下一页" />
 			</HorizontalLayout>
 		</VerticalLayout>
-		<VerticalLayout />
+		<VerticalLayout>
+			<HorizontalLayout height="43">
+				<Text text="打印选项" />
+				<Button name="btn_close" text="关闭" />
+			</HorizontalLayout>
+			<Combo name="combo_printer" bkcolor="0xffF7F7F7" bordercolor="0xffe7e7e7" bordersize="1" height="50" />
+			<HorizontalLayout height="30">
+				<Label text="纸张尺寸" />
+				<Combo name="combo_papersize" bordercolor="0xffe7e7e7" bordersize="1">
+					<ListLabelElement text="A4" />
+					<ListLabelElement text="A5" />
+				</Combo>
+			</HorizontalLayout>
+			<HorizontalLayout height="30">
+				<Label text="页面范围" />
+				<Combo name="combo_range" bordercolor="0xffe7e7e7" bordersize="1">
+					<ListLabelElement text="所有页面" />
+					<ListLabelElement text="自定义页面" />
+				</Combo>
+			</HorizontalLayout>
+			<Edit height="30" name="text_range" bordercolor="0xffe7e7e7" bordersize="1" />
+			<Control />
+			<Button name="btn_print" width="120" height="50" textcolor="0xffffffff" text="打印" bkcolor="0xff0078FF" hotbkcolor="0xff3393FF" pushedbkcolor="0xff0060CC" />
+		</VerticalLayout>
 	</HorizontalLayout>
 </Window>

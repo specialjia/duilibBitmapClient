@@ -8,9 +8,20 @@ class CMainDlg : public WindowImplBase
 {
     CPictureUI* m_pic;
     CListUI* m_list;
-    CTextUI* m_text;
+    CTextUI* m_textPagePro;
     CButtonUI* m_btnPre;
     CButtonUI* m_btnNext;
+    CComboUI* m_comboPrinter;
+    CButtonUI* m_btnPrint;
+    void Print();
+
+    CComboUI* m_comboRange;
+    bool IsAllRange();
+
+    CEditUI* m_editRange;
+    vector<size_t> GetPageRange();
+
+    void AddPrinterToCombo(CDuiString printerName);
 
 
     vector<CString> m_vFilePath;

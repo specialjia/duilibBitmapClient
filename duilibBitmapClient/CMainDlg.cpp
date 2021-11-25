@@ -1,6 +1,8 @@
 ﻿#define  _CRT_SECURE_NO_WARNINGS
 #include "CMainDlg.h"
 
+#include <regex>
+
 #include "Utils.h"
 
 typedef int (WINAPI* load_pdf)(char*);
@@ -119,11 +121,44 @@ bool BlitHBITMAP(HBITMAP hbmp, HDC hdc, Rect target) {
     return ok;
 }
 
-void printPdf(HBITMAP& bitmap)
+void printPdf(DEVMODEW *pdev,CDuiString path,CDuiString printerName,CDuiString fileName,vector<size_t> pageCount)
 {
-    const DEVMODEW* pdev;
+    if (pdev == NULL || path.IsEmpty() || printerName.IsEmpty() || fileName.IsEmpty() || pageCount.size() == 0) return;
+    
+    AutoDeleteDC hdc(CreateDC(nullptr, printerName, nullptr, pdev));
+    DOCINFOW di{};
+    di.cbSize = sizeof(DOCINFO);
+    di.lpszDocName = fileName;
+    if (StartDoc(hdc, &di) <= 0) {
+        DUITRACE(L"startdoc err");
+    }
+
+    for(auto i:pageCount)
+    {
+        StartPage(hdc);
+        Rect rc;
+        rc.x = 110;
+        rc.y = 0;
+        rc.dx = 4741;
+        rc.dy = 7016;
+        HBITMAP bitmap;
+        getImageFromPdf((char*)Utils::w2u(path.GetData()).c_str(),NULL,i,bitmap,100);
+        BlitHBITMAP(bitmap, hdc, rc);
+        EndPage(hdc);
+    }
+
+    // AbortDoc(hdc); //会取消打印
+    EndDoc(hdc);
+
+
+}
+
+void CMainDlg::Print()
+{
+    vector<size_t> pages = GetPageRange();
     DEVMODEW d = { 0 };
-    _tcscpy(d.dmDeviceName, L"Microsoft Print to PDF");
+    CDuiString printerName = m_comboPrinter->GetText();
+    _tcscpy(d.dmDeviceName, printerName.GetData());
     d.dmSpecVersion = 1025;
     d.dmDriverVersion = 1539;
     d.dmSize = 220;
@@ -154,29 +189,74 @@ void printPdf(HBITMAP& bitmap)
     d.dmMediaType = 1;
     d.dmDitherType = 4294967295;
     d.dmReserved1 = 877873479;
+    printPdf(&d,m_strCurPath,printerName,Utils::GetFileName(m_strCurPath.GetData()).GetBuffer(),pages);
 
+}
 
-
-    pdev = &d;
-    AutoDeleteDC hdc(CreateDC(nullptr, L"Microsoft Print to PDF", nullptr, pdev));
-    DOCINFOW di{};
-    di.cbSize = sizeof(DOCINFO);
-    di.lpszDocName = L"E:\\algrithom.pdf";
-    if (StartDoc(hdc, &di) <= 0) {
-        DUI__Trace(L"startdoc err");
+bool CMainDlg::IsAllRange()
+{
+    if(m_comboRange->GetText() == L"自定义页面")
+    {
+        return true;
     }
-    StartPage(hdc);
-    Rect rc;
-    rc.x = 110;
-    rc.y = 0;
-    rc.dx = 4741;
-    rc.dy = 7016;
-    BlitHBITMAP(bitmap, hdc, rc);
-    EndPage(hdc);
-    // AbortDoc(hdc); //会取消打印
-    EndDoc(hdc);
+    else
+    {
+        return  false;
+    }
+}
 
+vector<size_t> CMainDlg::GetPageRange()
+{
+    CDuiString str = m_editRange->GetText();
+    wregex r1(L"\\d+-\\d+"); //1-34
+    wregex r2(L"(\\d+,?)+");
 
+    vector<CDuiString> v;
+    bool ret = regex_match(str.GetData(), r1);
+    if(ret)
+    {
+        v = StrSplit(str, L"-");
+        vector<size_t> v_page;
+        for(int i = _wcstoi64(v[0].GetData(),NULL,10); i<= _wcstoi64(v[1].GetData(),NULL,10);i++ )
+        {
+            v_page.push_back(i);
+        }
+        return v_page;
+    }
+    else if(regex_match(str.GetData(), r2))
+    {
+        v = StrSplit(str, L",");
+        vector<size_t> v_page;
+        for(auto i:v)
+        {
+            size_t value = _wcstoi64(i.GetData(), NULL, 10);
+            if(value != 0)
+            {
+
+                v_page.push_back(value);
+            }
+        }
+
+        return v_page;
+    }
+	
+    return vector<size_t>();
+}
+
+void CMainDlg::AddPrinterToCombo(CDuiString printerName)
+{
+    CLabelUI* lb = new CLabelUI;
+    lb->SetText(printerName);
+    // lb->SetFixedHeight(50);
+    // lb->SetFixedWidth(50);
+    // lb->SetPadding({ 80,0,0,0 });
+
+    CListContainerElementUI* t = new CListContainerElementUI;
+    t->Add(lb);
+    t->SetText(printerName);
+    t->SetFixedHeight(50);
+    m_comboPrinter->Add(t);
+    m_comboPrinter->SelectItem(0);
 }
 
 CMainDlg::CMainDlg()
@@ -193,14 +273,39 @@ void CMainDlg::__InitWindow()
     DragAcceptFiles(m_hWnd, true);
 	m_pic = (CPictureUI*)m_pm.FindControl(L"pic_image");
     assert(m_pic);
+
     m_list = (CListUI*)m_pm.FindControl(L"list_file");
     assert(m_list);
-    m_text = (CTextUI*)m_pm.FindControl(L"lb_page");
-    assert(m_text);
+
+    m_textPagePro = (CTextUI*)m_pm.FindControl(L"lb_page");
+    assert(m_textPagePro);
+
     m_btnPre = (CButtonUI*)m_pm.FindControl(L"btn_pre");
     assert(m_btnPre);
-    m_btnNext = (CButtonUI*)m_pm.FindControl(L"btn_next");
 
+    m_btnNext = (CButtonUI*)m_pm.FindControl(L"btn_next");
+    assert(m_btnNext);
+
+    m_comboPrinter = (CComboUI*)m_pm.FindControl(L"combo_printer");
+    assert(m_comboPrinter);
+
+    m_comboRange = (CComboUI*)m_pm.FindControl(L"combo_range");
+    assert(m_comboRange);
+    m_editRange = (CEditUI*)m_pm.FindControl(L"text_range");
+    assert(m_editRange);
+    m_editRange->SetVisible(false);
+    m_comboRange->SelectItem(0);
+    m_editRange->SetEnabled(true);
+    
+   
+
+
+
+    vector<CString> v = GetPrinterList();
+    for(auto i:v)
+    {
+        AddPrinterToCombo(i.GetBuffer());
+    }
    
 
 
@@ -217,6 +322,7 @@ LRESULT CMainDlg::HandleMessage(UINT msg, WPARAM param, LPARAM long_ptr)
 
 void CMainDlg::Notify(TNotifyUI& msg)
 {
+     
     if (msg.sType == DUI_MSGTYPE_CLICK)
     {
         CDuiString strClass = msg.pSender->GetClass();
@@ -232,12 +338,45 @@ void CMainDlg::Notify(TNotifyUI& msg)
             {
                 NextPage();
             }
+            else if(!strName.CompareNoCase(L"btn_close"))
+            {
+                Close();
+            }
+            else if(!strName.CompareNoCase(L"btn_print"))
+            {
+                Print();
+            }
+        }
+        else if(!strClass.CompareNoCase(L"ComboUI"))
+        {
+	        
         }
         else
         {
             CControlUI* cui = msg.pSender->GetParent();
             CDuiString path = cui->GetName();
             PreviewPdf(path);
+        }
+    }
+    else if(msg.sType == DUI_MSGTYPE_ITEMSELECT)
+    {
+        CDuiString strClass = msg.pSender->GetClass();
+        DUITRACE(strClass);
+        CDuiString strName = msg.pSender->GetName();
+        DUITRACE(strName);
+        if(strName == L"combo_range")
+        {
+            assert(m_comboRange);
+            strName = m_comboRange->GetText();
+            DUITRACE(strName);
+            if (strName == L"自定义页面")
+            {
+                m_editRange->SetVisible(true);
+            }
+            else
+            {
+            	m_editRange->SetVisible(false);
+            }
         }
     }
 }
@@ -305,11 +444,12 @@ void CMainDlg::PreviewPdf(CDuiString path)
     HBITMAP bitmap;
     m_pageCount = getImageFromPdf((char*)Utils::w2u(path.GetData()).c_str(), NULL, 1, bitmap, 100);
     m_pic->LoadHBitmap(bitmap);
+    
     m_pic->NeedUpdate();
 
     CDuiString str;
     str.Format(L"1/%d", m_pageCount);
-    m_text->SetText(str);
+    m_textPagePro->SetText(str);
     m_curPage = 1;
     m_strCurPath = path;
 
@@ -317,7 +457,7 @@ void CMainDlg::PreviewPdf(CDuiString path)
 
 void CMainDlg::NextPage()
 {
-    if (m_curPage == m_pageCount) return;
+    if (m_curPage == m_pageCount || m_curPage==0) return;
 
     HBITMAP bitmap;
     m_pageCount = getImageFromPdf((char*)Utils::w2u(m_strCurPath.GetData()).c_str(), NULL, ++m_curPage, bitmap, 100);
@@ -325,12 +465,12 @@ void CMainDlg::NextPage()
     m_pic->NeedUpdate();
     CDuiString str;
     str.Format(L"%d/%d", m_curPage, m_pageCount);
-    m_text->SetText(str);
+    m_textPagePro->SetText(str);
 }
 
 void CMainDlg::PrePage()
 {
-    if (m_curPage == 1) return;
+    if (m_curPage == 1|| m_curPage == 0) return;
 
     HBITMAP bitmap;
     m_pageCount = getImageFromPdf((char*)Utils::w2u(m_strCurPath.GetData()).c_str(), NULL, --m_curPage, bitmap, 100);
@@ -338,7 +478,7 @@ void CMainDlg::PrePage()
     m_pic->NeedUpdate();
     CDuiString str;
     str.Format(L"%d/%d", m_curPage, m_pageCount);
-    m_text->SetText(str);
+    m_textPagePro->SetText(str);
 }
 
 vector<CString> CMainDlg::GetPrinterList()
