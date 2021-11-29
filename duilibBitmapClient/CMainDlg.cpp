@@ -531,7 +531,7 @@ void CMainDlg::PrePage()
     str.Format(L"%d/%d", m_curPage, m_pageCount);
     m_textPagePro->SetText(str);
 }
-
+ 
 vector<CDuiString> CMainDlg::GetPrinterList()
 {
     std::vector<CDuiString> plist;

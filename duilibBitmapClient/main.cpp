@@ -3,7 +3,7 @@
 
 
 
-
+#include <afxdisp.h>
 #include "CMainDlg.h"
 
 
@@ -19,6 +19,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     CPaintManagerUI::SetInstance(hInstance);
     CPaintManagerUI::SetResourcePath(_T("../DuiLib_Skin"));
     CMainDlg duiMain;
+    COleVariant varZero((short)0);
     duiMain.Create(NULL, _T("DUIWnd"), UI_WNDSTYLE_FRAME, WS_EX_WINDOWEDGE);
     duiMain.CenterWindow();
     duiMain.ShowModal();
