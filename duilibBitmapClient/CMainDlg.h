@@ -1,5 +1,6 @@
 ﻿#pragma once
-#include "UIlib.h"
+// #include <Windows.h>
+ #include "UIlib.h"
 
 using namespace DuiLib;
 
@@ -24,7 +25,7 @@ class CMainDlg : public WindowImplBase
     void AddPrinterToCombo(CDuiString printerName);
 
 
-    vector<CString> m_vFilePath;
+    vector<CDuiString> m_vFilePath;
     size_t m_pageCount;
     size_t m_curPage;
     CDuiString m_strCurPath;
@@ -39,15 +40,17 @@ public:
     virtual void Notify(TNotifyUI& msg) override;
 
     LRESULT OnDropFile(UINT uMsg, WPARAM wParam, LPARAM lParam);
-    void AddFile(CString path);
+    void AddFile(CDuiString path);
     void PreviewPdf(CDuiString path);
     void NextPage();
     void PrePage();
+
+  
 
 
 
 public:
     
-    vector<CString> GetPrinterList();
+    vector<CDuiString> GetPrinterList();
 
 };

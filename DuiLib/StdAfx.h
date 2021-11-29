@@ -52,12 +52,12 @@
 //添加MFC支持
 //////////////////////////////////////////////////////////////////////////
 
-// #define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS      // 某些 CString 构造函数将是显式的
+#define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS      // 某些 CString 构造函数将是显式的
 // 
 // #define VC_EXTRALEAN
 // #include <afxwin.h>         // MFC 核心组件和标准组件
 // #include <afxext.h>         // MFC 扩展
-// #include <afxdisp.h>        // MFC 自动化类
+// #include <afxdisp.h>     // MFC 自动化类
 // 
 // #ifndef _AFX_NO_AFXCMN_SUPPORT
 // #include <afxcmn.h>
