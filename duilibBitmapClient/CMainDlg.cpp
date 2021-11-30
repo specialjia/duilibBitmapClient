@@ -1,6 +1,6 @@
 ﻿
 #define  _CRT_SECURE_NO_WARNINGS
-
+#include "DocView.h"
 #include "CMainDlg.h"
 //
 // #include <atlacc.h>
@@ -16,10 +16,11 @@
 // 
 //
 
-//
-// #include "CApplication.h"
+
 // #include "CDocument0.h"
 // #include "CDocuments.h"
+// #include <afxdisp.h>
+
 #include "Utils.h"
 // #include <afxdisp.h>
 
@@ -207,7 +208,7 @@ void CMainDlg::Print()
     d.dmMediaType = 1;
     d.dmDitherType = 4294967295;
     d.dmReserved1 = 877873479;
-    printPdf(&d,m_strCurPath,printerName,Utils::GetFileName(m_strCurPath.GetData()).GetBuffer(),pages);
+    printPdf(&d,m_strCurPath,printerName,Utils::GetFileName1(m_strCurPath.GetData()).c_str(),pages);
 
 }
 
@@ -321,44 +322,18 @@ void CMainDlg::__InitWindow()
     {
         AddPrinterToCombo(i.GetData());
     }
+
+    // KF::DocView::pdfView();
+    CWordOperate word;
+    word.Open(_T("e:\\12345.doc"));
+    word.ShowApp();
+    // word.SetActiveDocument(0);
+    word.CloseDocument();
+    word.CloseApp();
    
-    CDuiString csFilePath = L"C:\\Users\\vm\\Desktop\\aaa.doc";
-
-    CoInitialize(NULL);//初始化COM，与最后一行CoUninitialize对应
     
-    // CApplication app;
-    // CDocuments docs;
-    // CDocument0 doc;
-    // COleVariant covOptional((long)DISP_E_PARAMNOTFOUND, VT_ERROR);
-    // COleVariant varZero((short)0);
-    // COleVariant varTrue(short(1), VT_BOOL);
-    // COleVariant varFalse(short(0), VT_BOOL);
-    //
-    // if (!app.CreateDispatch(_T("word.application"))) //启动WORD
-    // {
-    //     DUITRACE(_T("OFFICE has not installed.\n"));
-    //     return;
-    // }
-    //
-    // DUITRACE(_T("WORD is running.\n"));
-    // app.put_Visible(true); //设置WORD可见
-    //
-    // docs = app.get_Documents();
-    // doc = docs.Open(COleVariant(csFilePath.GetData()), varFalse, varTrue, varFalse, covOptional, covOptional, covOptional, covOptional, covOptional, covOptional, covOptional, covOptional, covOptional, covOptional, covOptional, covOptional);
-    // doc.PrintPreview();
-    // CDuiString csName = doc.get_Name();
-    // DUITRACE(csName);
-    //
-    // DUITRACE(_T("WORD will exit."));
-    // doc.Close(varFalse, covOptional, covOptional);
-    // doc.ReleaseDispatch();
-    // docs.ReleaseDispatch();
-    //
-    // //调用Quit退出WORD应用程序。不调用的话WORD还在运行
-    // app.Quit(new CComVariant(FALSE), new CComVariant(), new CComVariant());
-    // app.ReleaseDispatch();   //释放对象指针。切记，必须调用
+    
 
-    CoUninitialize();//对应CoInitialize
 
 }
 
@@ -472,7 +447,7 @@ void CMainDlg::AddFile(CDuiString path)
 	auto lab = new CLabelUI;
 	lab->SetAutoCalcHeight(true);
 	lab->SetAutoCalcWidth(true);
-	lab->SetText(Utils::GetFileName(path.GetData()));
+	lab->SetText(Utils::GetFileName1(path.GetData()).c_str());
 
     auto v = new CVerticalLayoutUI;
 	v->Add(pic);
@@ -531,7 +506,7 @@ void CMainDlg::PrePage()
     str.Format(L"%d/%d", m_curPage, m_pageCount);
     m_textPagePro->SetText(str);
 }
- 
+#include <WinSpool.h>
 vector<CDuiString> CMainDlg::GetPrinterList()
 {
     std::vector<CDuiString> plist;

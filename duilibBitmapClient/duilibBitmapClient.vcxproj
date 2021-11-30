@@ -159,6 +159,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CMainDlg.cpp" />
+    <ClCompile Include="DocView.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
@@ -168,7 +169,19 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CApplication.h" />
+    <ClInclude Include="CBorders.h" />
+    <ClInclude Include="CCell.h" />
+    <ClInclude Include="CDocument0.h" />
+    <ClInclude Include="CDocuments.h" />
+    <ClInclude Include="CFont0.h" />
     <ClInclude Include="CMainDlg.h" />
+    <ClInclude Include="CParagraphs.h" />
+    <ClInclude Include="CRange.h" />
+    <ClInclude Include="CSelection.h" />
+    <ClInclude Include="CTable0.h" />
+    <ClInclude Include="CTables0.h" />
+    <ClInclude Include="DocView.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

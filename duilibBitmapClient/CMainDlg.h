@@ -1,4 +1,5 @@
 ﻿#pragma once
+
 // #include <Windows.h>
  #include "UIlib.h"
 
@@ -54,3 +55,4 @@ public:
     vector<CDuiString> GetPrinterList();
 
 };
+

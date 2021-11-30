@@ -24,12 +24,51 @@
     <ClCompile Include="Utils.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="DocView.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CMainDlg.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Utils.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CApplication.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CDocument0.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CDocuments.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DocView.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CCell.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CFont0.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CParagraphs.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CSelection.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CTable0.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CTables0.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CBorders.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CRange.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

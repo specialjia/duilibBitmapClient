@@ -1,15 +1,15 @@
 ﻿#include "Utils.h"
 
-CString Utils::GetFileName(CString path)
+std::wstring Utils::GetFileName1(std::wstring path)
 {
 	int intCharPosition;
 
 	//Find "\\",Get The File's Name
-	intCharPosition = path.ReverseFind(L'\\');
+	intCharPosition = path.find_last_of(L'\\');
 
 	if (-1 != intCharPosition)
 	{
-		path = path.Right(path.GetLength() - intCharPosition - 1);
+		path = path.substr(path.length() - intCharPosition - 1);
 	}
 
 	return path;
